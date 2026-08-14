@@ -1,9 +1,12 @@
 # Shell roadmap
 
 ## main.c
- - [ ] repl loop with process and signal handling
+ - [x] repl loop with process and signal handling
  - [x] read a line from stdin
- - [ ] parse the input
+ - [x] parse the input
+ - [x] evaluate the input
+ - [ ] support pipes and redirections
+ - [ ] support job control
 ## reading input
  - [x] write a input reading function
  - [x] handle eof exiting and getline error
@@ -12,4 +15,17 @@
  - [x] write a parser
  - [ ] review the behaviour when arg number is greater than ARG_MAX
 ## evaluating input
- - [ ] write an eval function that evaluates parsed input
+ - [x] write an eval function that evaluates parsed input
+ - [x] support cd with chdir
+ - [x] support pwd
+ - [x] support exit
+ - [ ] refactor with command struct for every command
+ - [ ] dive into execvp failed spec
+ - [x] support not built in commands
+ - [ ] support bg and fg
+ - [ ] refactor if-else block with a dispatch table
+ ## signals
+  - [x] handle ctrl c and ctrl z in main program
+ ## misc
+  - [ ] fix printing newline
+  - [ ] add current directory

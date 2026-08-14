@@ -1,4 +1,5 @@
 #include "parser.h"
+#include <signal.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
@@ -6,6 +7,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include "eval.h"
+#include "main_routine_signals.h"
 void evaluate(char *line){
     int bg = 0;
     char **argv = parse(line, &bg);
@@ -60,6 +62,7 @@ void evaluate(char *line){
                 perror("Fork error");
                 return;
             case 0:
+                default_child_signals();
                 if(execvp(argv[0], argv) == -1){
                     perror("execvp failed");
                     exit(EXIT_FAILURE);

@@ -1,0 +1,39 @@
+{
+  "date": "2026-08-14T13:36:42.362714118+02:00",
+  "data": {
+    "CMAKE_C_STANDARD": {
+      "location": {
+        "uri": "file:///home/wojciech/materialy/c++/systems_projects/shell/CMakeLists.txt",
+        "range": {
+          "start": {
+            "line": 5,
+            "character": 4
+          },
+          "end": {
+            "line": 5,
+            "character": 20
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /home/wojciech/materialy/c++/systems_projects/shell/CMakeLists.txt",
+      "is_function": false
+    },
+    "CMAKE_C_STANDARD_REQUIRED": {
+      "location": {
+        "uri": "file:///home/wojciech/materialy/c++/systems_projects/shell/CMakeLists.txt",
+        "range": {
+          "start": {
+            "line": 6,
+            "character": 4
+          },
+          "end": {
+            "line": 6,
+            "character": 29
+          }
+        }
+      },
+      "document_info": "defined variable\nfrom: /home/wojciech/materialy/c++/systems_projects/shell/CMakeLists.txt",
+      "is_function": false
+    }
+  }
+}
