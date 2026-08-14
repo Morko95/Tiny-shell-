@@ -18,6 +18,6 @@ char *read_input(void){
             free(line);
             return(NULL);
         }
-    return line;
     }
+    return line;
 }

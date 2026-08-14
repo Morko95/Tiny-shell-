@@ -3,8 +3,9 @@
 #include <string.h>
 #include "shell.h"
 #include <stdlib.h>
+#include <unistd.h>
 #include "parser.h"
-char **parse(char *line){
+char **parse(char *line, int *bg){
     char **args = malloc(MAXARG*sizeof(char *));
     if (!args){
         perror("Malloc error");
@@ -21,6 +22,11 @@ char **parse(char *line){
         token = strtok(NULL, " \n\t\r\a");
     }
     args[position] = NULL;
+    position--;
+    if (position > 0 && strcmp(args[position - 1], "&") == 0) {
+        args[position - 1] = NULL; // Usuwamy '&' z argumentów przekazywanych do execvp
+        *bg = IS_BG;
+    }
     return args;
 
 }
