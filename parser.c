@@ -24,7 +24,6 @@ char **parse(char *line, int *bg){
     args[position] = NULL;
     position--;
     if (position > 0 && strcmp(args[position - 1], "&") == 0) {
-        args[position - 1] = NULL; // Usuwamy '&' z argumentów przekazywanych do execvp
         *bg = IS_BG;
     }
     return args;

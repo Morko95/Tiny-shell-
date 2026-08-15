@@ -1,10 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <bits/types/sigset_t.h>
+#include "job_utils.h"
 #include "read_input.h"
 #include "eval.h"
 #include "main_routine_signals.h"
+#include "shell.h"
 int main(){
+    struct job_t jobs_table[MAXJOBS];
+    initialize(jobs_table);
     default_shell_signals();
     while(1){
        printf("tsh>");

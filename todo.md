@@ -22,10 +22,11 @@
  - [ ] refactor with command struct for every command
  - [ ] dive into execvp failed spec
  - [x] support not built in commands
- - [ ] support bg and fg
  - [ ] refactor if-else block with a dispatch table
  ## signals
   - [x] handle ctrl c and ctrl z in main program
+## job control
+  
  ## misc
   - [ ] fix printing newline
   - [ ] add current directory

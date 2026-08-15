@@ -3,4 +3,5 @@
 #define IS_BG 1
 #define MAXLINE 1024
 #define MAXARG 64
+#define MAXJOBS 64
 #endif
