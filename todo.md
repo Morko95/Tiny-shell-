@@ -26,7 +26,12 @@
  ## signals
   - [x] handle ctrl c and ctrl z in main program
 ## job control
-  
+  - [x] implement a job_t structure
+  - [x] add addjob() and clearjob() functions to manipulate job table
+  - [ ] add jobs builtin command to display the job table state
+  - [ ] seperate the waitpid() into the sigchild handler
+  - [ ] implement waitfg() that waits for foreground process to terminate
+  - [ ] review the background and foreground process launching
  ## misc
   - [ ] fix printing newline
   - [ ] add current directory
