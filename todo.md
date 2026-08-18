@@ -6,7 +6,7 @@
  - [x] parse the input
  - [x] evaluate the input
  - [ ] support pipes and redirections
- - [ ] support job control
+ - [x] support job control
 ## reading input
  - [x] write a input reading function
  - [x] handle eof exiting and getline error
@@ -23,15 +23,22 @@
  - [ ] dive into execvp failed spec
  - [x] support not built in commands
  - [ ] refactor if-else block with a dispatch table
+ - [ ] make sure memory is released
+ - [ ] refactor fg and bg calling
  ## signals
   - [x] handle ctrl c and ctrl z in main program
 ## job control
   - [x] implement a job_t structure
   - [x] add addjob() and clearjob() functions to manipulate job table
-  - [ ] add jobs builtin command to display the job table state
-  - [ ] seperate the waitpid() into the sigchild handler
-  - [ ] implement waitfg() that waits for foreground process to terminate
+  - [x] add jobs builtin command to display the job table state
+  - [x] seperate the waitpid() into the sigchild handler
+  - [x] implement waitfg() that waits for foreground process to terminate
   - [x] review the background and foreground process launching
+  - [x] add bg and fg builtins
+  - [ ] make sure functions handle bound checking correctly
+  
  ## misc
   - [ ] fix printing newline
   - [ ] add current directory
+  - [ ] make jobs code more readable
+  - [ ] refactor bound checking in job_utils

@@ -14,5 +14,10 @@ void initialize(struct job_t *jobtable);
 void addjob(struct job_t *table,job_state_t state, pid_t pid, char *cmdline);
 void clearjob(struct job_t *table, pid_t pid);
 void stop_job(struct job_t *table, pid_t pid);
+pid_t get_pid_index(pid_t pid, struct job_t *table);
 void waitfg(pid_t pid, struct job_t *table);
+void set_job_status(pid_t jid, struct job_t *table, job_state_t status);
+void fg_j(int jid, struct job_t *table);
+void bg_j(int jid, struct job_t *table);
+void jobs(struct job_t *table);
 #endif

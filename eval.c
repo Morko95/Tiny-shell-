@@ -1,4 +1,3 @@
-#include "handlers.h"
 #include "parser.h"
 #include <bits/types/sigset_t.h>
 #include <signal.h>
@@ -15,7 +14,6 @@
 #include "signal_utils.h"
 
 void evaluate(char *line, struct job_t *table){
-    Sigchild_handler();
     sigset_t prevmask;
     sigset_t blocked_for_jobs = process_table_mask();
     int bg = 0;
@@ -54,6 +52,48 @@ void evaluate(char *line, struct job_t *table){
         free(curr_env);
         return;
     }
+    else if (strcmp(argv[0], "jobs") == 0){
+        jobs(table);
+        free(argv);
+    }
+    else if(strcmp(argv[0], "bg") == 0){
+        if (argv[1] == NULL){
+            printf("Not enough arguments");
+            free(argv);
+        }
+        else{
+            if(argv[1][0] == '%'){
+                pid_t jid = atoi(&argv[1][1]);
+                bg_j(jid, table);
+                free(argv);
+            }
+            else{
+                pid_t pid = atoi(&argv[1][1]);
+                pid_t jid = get_pid_index(pid, table);
+                bg_j(jid, table);
+                free(argv);
+            }
+        }
+    }
+    else if(strcmp(argv[0], "fg") == 0){
+            if (argv[1] == NULL){
+                printf("Not enough arguments");
+                free(argv);
+            }
+            else{
+                if(argv[1][0] == '%'){
+                    pid_t jid = atoi(&argv[1][1]);
+                    fg_j(jid, table);
+                    free(argv);
+                }
+                else{
+                    pid_t pid = atoi(&argv[1][1]);
+                    pid_t jid = get_pid_index(pid, table);
+                    fg_j(jid, table);
+                    free(argv);
+                }
+            }
+        }
     else {
         sigprocmask(SIG_BLOCK, &blocked_for_jobs, &prevmask);
         pid_t pid = fork();

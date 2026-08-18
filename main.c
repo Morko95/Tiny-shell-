@@ -9,6 +9,7 @@
 #include "handlers.h"
 int main(){
     struct job_t jobs_table[MAXJOBS];
+    Sigchild_handler();
     initialize(jobs_table);
     pass_table(jobs_table);
     default_shell_signals();
