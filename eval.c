@@ -1,4 +1,6 @@
+#include "handlers.h"
 #include "parser.h"
+#include <bits/types/sigset_t.h>
 #include <signal.h>
 #include <stdlib.h>
 #include <string.h>
@@ -6,9 +8,16 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include "shell.h"
 #include "eval.h"
+#include "job_utils.h"
 #include "main_routine_signals.h"
-void evaluate(char *line){
+#include "signal_utils.h"
+
+void evaluate(char *line, struct job_t *table){
+    Sigchild_handler();
+    sigset_t prevmask;
+    sigset_t blocked_for_jobs = process_table_mask();
     int bg = 0;
     char **argv = parse(line, &bg);
     if(argv[0] == NULL){
@@ -45,16 +54,8 @@ void evaluate(char *line){
         free(curr_env);
         return;
     }
-    //TODO LATER
-    /*else if( strcmp(argv[0], "bg") == 0){
-        if (bg&IS_BG){
-            printf("The process already running in the background");
-            free(argv);
-            return;
-            }*/
-
-    //}
     else {
+        sigprocmask(SIG_BLOCK, &blocked_for_jobs, &prevmask);
         pid_t pid = fork();
         int status;
         switch (pid){
@@ -62,17 +63,25 @@ void evaluate(char *line){
                 perror("Fork error");
                 return;
             case 0:
+                sigprocmask(SIG_SETMASK, &prevmask, NULL);
                 default_child_signals();
+                setpgid(0, 0);
                 if(execvp(argv[0], argv) == -1){
                     perror("execvp failed");
                     exit(EXIT_FAILURE);
                 }
             default:
-                if(waitpid(pid, &status, 0) == -1){
-                    perror("Waitpid failed");
-                    exit(EXIT_FAILURE);
+                setpgid(pid, pid);
+                if (bg != IS_BG){
+                    addjob(table, FG, pid, *argv);
+                    tcsetpgrp(STDIN_FILENO, pid);
+                    waitfg(pid, table);
+                    tcsetpgrp(STDIN_FILENO, getpgrp());
                 }
-
+                else{
+                    addjob(table, BG, pid, *argv);
+                }
+                sigprocmask(SIG_SETMASK, &prevmask, NULL);
                 break;
 
         }

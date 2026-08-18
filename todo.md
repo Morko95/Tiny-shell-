@@ -31,7 +31,7 @@
   - [ ] add jobs builtin command to display the job table state
   - [ ] seperate the waitpid() into the sigchild handler
   - [ ] implement waitfg() that waits for foreground process to terminate
-  - [ ] review the background and foreground process launching
+  - [x] review the background and foreground process launching
  ## misc
   - [ ] fix printing newline
   - [ ] add current directory
