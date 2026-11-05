@@ -19,12 +19,11 @@
  - [x] support cd with chdir
  - [x] support pwd
  - [x] support exit
- - [ ] refactor with command struct for every command
- - [ ] dive into execvp failed spec
+ - [x] dive into execvp failed spec
  - [x] support not built in commands
  - [ ] refactor if-else block with a dispatch table
- - [ ] make sure memory is released
- - [ ] refactor fg and bg calling
+ - [x] make sure memory is released
+ - [x] refactor fg and bg calling
  ## signals
   - [x] handle ctrl c and ctrl z in main program
 ## job control
@@ -35,14 +34,10 @@
   - [x] implement waitfg() that waits for foreground process to terminate
   - [x] review the background and foreground process launching
   - [x] add bg and fg builtins
-  - [ ] make sure functions handle bound checking correctly
+  - [x] make sure functions handle bound checking correctly
   
- ## misc
-  - [ ] fix printing newline
-  - [ ] add current directory
-  - [ ] make jobs code more readable
-  - [ ] refactor bound checking in job_utils
+
  ## pipes
-  - [ ] implement a 2 step parser to seperate each command
-  - [ ] modify job data structures to enable pipe chains
-  - [ ] review the sigchild handler and job utils interactions with the process table
+  - [x] implement a 2 step parser to seperate each command
+  - [x] modify job data structures to enable pipe chains
+  - [x] review the sigchild handler and job utils interactions with the process table
