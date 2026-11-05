@@ -1,36 +1,53 @@
-#include <stdio.h>
 #include <linux/limits.h>
-#include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#include "shell.h"
 #include "parser.h"
 
-char **parse(char *line, int *bg) {
-    char **args = malloc(MAXARG * sizeof(char *));
-    if (!args) {
-        perror("malloc error");
-        exit(EXIT_FAILURE);
+#include <fcntl.h>
+#include <string.h>
+#include "parser.h"
+
+int parse_line(char *line, struct pipeline *pipe_line) {
+    pipe_line->num_cmds = 0;
+    pipe_line->bg = 0;
+
+    char *token = strtok(line, " \t\r\n\a");
+    if (!token) return 0;
+
+    int cmd_idx = 0;
+    int arg_idx = 0;
+    pipe_line->cmds[0].infile = NULL;
+    pipe_line->cmds[0].outfile = NULL;
+    pipe_line->cmds[0].append = 0;
+
+    while (token != NULL) {
+        if (strcmp(token, "&") == 0) {
+            pipe_line->bg = 1;
+        } else if (strcmp(token, "|") == 0) {
+            pipe_line->cmds[cmd_idx].argv[arg_idx] = NULL;
+            cmd_idx++;
+            arg_idx = 0;
+            pipe_line->cmds[cmd_idx].infile = NULL;
+            pipe_line->cmds[cmd_idx].outfile = NULL;
+            pipe_line->cmds[cmd_idx].append = 0;
+        } else if (strcmp(token, "<") == 0) {
+            token = strtok(NULL, " \t\r\n\a");
+            pipe_line->cmds[cmd_idx].infile = token;
+        } else if (strcmp(token, ">") == 0) {
+            token = strtok(NULL, " \t\r\n\a");
+            pipe_line->cmds[cmd_idx].outfile = token;
+            pipe_line->cmds[cmd_idx].append = 0;
+        } else if (strcmp(token, ">>") == 0) {
+            token = strtok(NULL, " \t\r\n\a");
+            pipe_line->cmds[cmd_idx].outfile = token;
+            pipe_line->cmds[cmd_idx].append = 1;
+        } else {
+            pipe_line->cmds[cmd_idx].argv[arg_idx++] = token;
+        }
+        token = strtok(NULL, " \t\r\n\a");
     }
+    pipe_line->cmds[cmd_idx].argv[arg_idx] = NULL;
+    pipe_line->num_cmds = (arg_idx > 0 || pipe_line->cmds[cmd_idx].infile) ? cmd_idx + 1 : cmd_idx;
 
-    *bg = 0;
-    int position = 0;
-    char *token = strtok(line, " \n\t\r\a");
-
-    while (token != NULL && position < MAXARG - 1) {
-        args[position++] = token;
-        token = strtok(NULL, " \n\t\r\a");
-    }
-    args[position] = NULL;
-
-    if (position == 0) {
-        return args; // Pusta linia
-    }
-
-    if (strcmp(args[position - 1], "&") == 0) {
-        *bg = IS_BG;
-        args[position - 1] = NULL; // Usuwamy '&', by execvp go nie przetwarzał
-    }
-
-    return args;
+    return pipe_line->num_cmds;
 }

@@ -42,3 +42,7 @@
   - [ ] add current directory
   - [ ] make jobs code more readable
   - [ ] refactor bound checking in job_utils
+ ## pipes
+  - [ ] implement a 2 step parser to seperate each command
+  - [ ] modify job data structures to enable pipe chains
+  - [ ] review the sigchild handler and job utils interactions with the process table
